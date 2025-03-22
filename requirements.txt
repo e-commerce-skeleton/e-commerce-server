@@ -1,0 +1,14 @@
+# FastAPI and ASGI server
+fastapi[standard]
+uvicorn
+
+# Google authentication (OAuth2 verification)
+google-auth
+google-auth-oauthlib
+google-auth-httplib2
+
+# HTTP requests (for Google API requests)
+requests
+
+# Pydantic (data validation)
+pydantic
