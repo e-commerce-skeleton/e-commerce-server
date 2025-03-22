@@ -7,7 +7,7 @@ google-auth
 google-auth-oauthlib
 google-auth-httplib2
 
-# HTTP requests (for Google API requests)
+# HTTP requests
 requests
 
 # Pydantic (data validation)
