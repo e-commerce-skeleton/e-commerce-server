@@ -1,5 +1,14 @@
+# Entorno virtual
 .venv
-venv
+
+# Git
 .git
+
+# Variables de entorno
 .env
+
+# Python
 __pycache__
+
+# allembic versions
+versions

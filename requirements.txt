@@ -12,3 +12,17 @@ requests
 
 # Pydantic (data validation)
 pydantic
+
+# MySQL 
+mysql-connector-python
+PyMySQL
+cryptography
+
+# SQLAlchemy
+sqlalchemy
+
+# Alembic (para migraciones)
+alembic
+
+# leer de entorno
+python-dotenv
