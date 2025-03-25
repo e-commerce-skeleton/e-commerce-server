@@ -6,7 +6,7 @@ Seguir las instrucciones de Documentation/mysql.md
 # 2. Crear un entorno virtual (La primera vez).
 
 ```bash
-python venv .venv
+python -m venv .venv
 ```
 
 # 3. Activar entorno virtual (Siempre): 
@@ -39,6 +39,7 @@ e-commerce-server/
 - Escribir
 
 GOOGLE_CLIENT_ID=you_google_client_id
+CLIENT_PORT=you_client_port
 DB_NAME=you_db_name
 DB_USER=your_db_user
 DB_PASSWORD=you_db_password
@@ -50,22 +51,30 @@ reemplazando por los valores correspondientes (sin usar comillas)
 # 6. Crear base de datos  (La primera vez):
 
 ```bash
-python -m src.app.database.create_db
+python -m src.app.database.create_db    
 ```
 
-# 7. Generar un sript de migracion  (La primera vez y cuando actualizas algun sqlalchemy model):
+# 7. Crear folder para las migraciones de alembic (La primera vez):
+
+crear folder **versions** en el directorio alembic 
+o ejecutar
+```bash
+mkdir alembic/versions
+```
+
+# 8. Generar un sript de migracion  (La primera vez y cuando actualizas algun sqlalchemy model):
 
 ```bash
 alembic revision --autogenerate -m "migration name"
 ```
 
-# 8. Aplicar la migración (La primera vez y cuando actualizas algun sqlalchemy model):
+# 9. Aplicar la migración (La primera vez y cuando actualizas algun sqlalchemy model):
 
 ```bash
 alembic upgrade head
 ```
 
-# 9. Levantar servidor (Siempre):
+# 10. Levantar servidor (Siempre):
 
 ```bash
 uvicorn src.app.main:app --reload
