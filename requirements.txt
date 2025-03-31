@@ -24,5 +24,9 @@ sqlalchemy
 # Alembic (para migraciones)
 alembic
 
-# leer de entorno
+# read enviroment var
 python-dotenv
+
+# read file
+pandas
+openpyxl
