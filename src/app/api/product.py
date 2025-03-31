@@ -2,10 +2,8 @@ from fastapi import APIRouter, File, UploadFile, Depends
 from sqlalchemy.orm import Session
 import pandas as pd
 from io import BytesIO
-from src.app.models.product import ProductModel
-from src.app.models.category import CategoryModel
 from src.app.database.session import get_db
-from src.app.utils import sync_products_and_categories  # Importamos la función que manejará la lógica
+from src.app.utils.sync_product_relations import sync_associations
 
 router = APIRouter()
 
@@ -16,6 +14,6 @@ async def import_products(file: UploadFile = File(...), db: Session = Depends(ge
     df = pd.read_excel(BytesIO(contents))
 
     # Sincronizamos los productos y las categorías
-    sync_products_and_categories(df, db)
+    sync_associations(df, db)
 
-    return {"message": "Productos y categorías sincronizados correctamente"}
+    return {"message": "sync OK"}
