@@ -1,10 +1,10 @@
 from sqlalchemy.orm import Session
 from src.app.models.product import ProductModel
 
-def get_product_by_id(db: Session, prod_id: int):
+def get_product_by_id(db: Session, prod_id: str):
     return db.query(ProductModel).filter(ProductModel.prod_id == prod_id).first()
 
-def create_product(db: Session, prod_id: int, name: str, img_url: str, alt_text: str, description: str, current_price: float, prev_price: float, payment_method: str, detail: str):
+def create_product(db: Session, prod_id: str, name: str, img_url: str, alt_text: str, description: str, current_price: float, prev_price: float, payment_method: str, detail: str, stock: int):
     product = ProductModel(
         prod_id=prod_id,
         name=name,
@@ -14,14 +14,15 @@ def create_product(db: Session, prod_id: int, name: str, img_url: str, alt_text:
         current_price=current_price,
         prev_price=prev_price,
         payment_method=payment_method,
-        detail=detail
+        detail=detail,
+        stock=stock,
     )
     db.add(product)
     db.commit()
     db.refresh(product)
     return product
 
-def update_product(db: Session, product: ProductModel, name: str, img_url: str, alt_text: str, description: str, current_price: float, prev_price: float, payment_method: str, detail: str):
+def update_product(db: Session, product: ProductModel, name: str, img_url: str, alt_text: str, description: str, current_price: float, prev_price: float, payment_method: str, detail: str, stock: int):
     product.name = name
     product.img_url = img_url
     product.alt_text = alt_text
@@ -30,6 +31,7 @@ def update_product(db: Session, product: ProductModel, name: str, img_url: str, 
     product.prev_price = prev_price
     product.payment_method = payment_method
     product.detail = detail
+    product.stock = stock
     db.commit()
     db.refresh(product)
     return product
