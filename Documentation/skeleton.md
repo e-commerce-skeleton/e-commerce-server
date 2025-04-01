@@ -41,18 +41,12 @@ e-commerce-server/
 │       ├── api/                            # Rutas API (manejo de los endpoints de la aplicación)
 │       │   ├── init.py                     # Inicialización del paquete
 │       │   ├── auth.py                     # Rutas de autenticación (login, registro, manejo de tokens)
-│       │   ├── product.py                  # Rutas relacionadas con el stock de productos
+│       │   ├── stock_by_form.py            # Rutas relacionados con la creacion, actualizacion y destruccion de productos individuales
+│       │   ├── stock_by_excel.py           # Rutas relacionadas con la creacion y destruccion de muchos productos a traves de un Excel
 │       │           
 │       ├── init.py                         # Inicialización del paquete (para importar módulos dentro de 'app')
 │       ├── main.py                         # Punto de entrada de la aplicación (inicializa FastAPI y carga la configuración)
 │       ├── config.py                       # Configuración general (variables globales, configuración de terceros, etc.)
-│           
-├── tests/                                  # Directorio para pruebas automáticas (unitarias e integraciones)
-│   ├── init.py                             # Inicialización del paquete
-│   ├── test_auth.py                        # Pruebas para autenticación y seguridad
-│   ├── test_products.py                    # Pruebas para la funcionalidad de productos
-│   ├── test_categories.py                  # Pruebas para la funcionalidad de categorías
-│   ├── conftest.py                         # Configuración de pruebas y fixtures de pytest
 │           
 ├── requirements.txt                        # Dependencias del proyecto (librerías necesarias para ejecutar la aplicación)
 │           
@@ -62,8 +56,4 @@ e-commerce-server/
 │           
 ├── .env                                    # Archivo de variables de entorno (con datos sensibles como contraseñas, claves API, etc.)
 │           
-├── Dockerfile                              # Archivo para construir una imagen Docker del proyecto
-│       
-├── docker-compose.yml                      # Configuración de servicios Docker para el proyecto (base de datos, aplicación, etc.)
-│       
 └── README.md                               # Documentación general sobre el proyecto (qué hace, cómo instalarlo y ejecutarlo)

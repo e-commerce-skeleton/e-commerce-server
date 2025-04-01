@@ -1,8 +1,7 @@
 # src/app/main.py
 from fastapi import FastAPI
 from src.app.api import auth
-from src.app.api import stock_by_form
-from src.app.api import stock_by_excel
+from src.app.api import stock
 from fastapi.middleware.cors import CORSMiddleware
 from .config import db_host, client_port
 
@@ -18,5 +17,4 @@ app.add_middleware(
 )
 
 app.include_router(auth.router)
-app.include_router(stock_by_form.router)
-app.include_router(stock_by_excel.router)
+app.include_router(stock.router)

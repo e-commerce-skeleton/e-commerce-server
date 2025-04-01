@@ -1,12 +1,16 @@
 from sqlalchemy.orm import Session
+from fastapi import HTTPException
 from src.app.models.product import ProductModel
+from src.app.services.stock.category_sync import sync_categories_from_row, remove_unused_categories
 
-def get_product_by_id(db: Session, prod_id: str):
+def get_product_by_id(db: Session, prod_id: int):
     return db.query(ProductModel).filter(ProductModel.prod_id == prod_id).first()
 
-def create_product(db: Session, prod_id: str, name: str, img_url: str, alt_text: str, description: str, current_price: float, prev_price: float, payment_method: str, detail: str, stock: int):
+def create_product(db: Session, name, img_url, alt_text, description, current_price, prev_price, payment_method, detail, stock, categories):
+    if db.query(ProductModel).filter(ProductModel.name == name).first():
+        raise HTTPException(status_code=400, detail="Product with this name already exists")
+
     product = ProductModel(
-        prod_id=prod_id,
         name=name,
         img_url=img_url,
         alt_text=alt_text,
@@ -17,21 +21,44 @@ def create_product(db: Session, prod_id: str, name: str, img_url: str, alt_text:
         detail=detail,
         stock=stock,
     )
+
     db.add(product)
     db.commit()
     db.refresh(product)
+
+    product.categories = sync_categories_from_row({"categories": categories}, db)
+    db.commit()
+
     return product
 
-def update_product(db: Session, product: ProductModel, name: str, img_url: str, alt_text: str, description: str, current_price: float, prev_price: float, payment_method: str, detail: str, stock: int):
-    product.name = name
-    product.img_url = img_url
-    product.alt_text = alt_text
-    product.description = description
-    product.current_price = current_price
-    product.prev_price = prev_price
-    product.payment_method = payment_method
-    product.detail = detail
-    product.stock = stock
+def update_product(db: Session, prod_id, name, img_url, alt_text, description, current_price, prev_price, payment_method, detail, stock, categories):
+    product = get_product_by_id(db, prod_id)
+    if not product:
+        raise HTTPException(status_code=404, detail="Product not found")
+
+    for field, value in {
+        "name": name, "img_url": img_url, "alt_text": alt_text, "description": description,
+        "current_price": current_price, "prev_price": prev_price, "payment_method": payment_method,
+        "detail": detail, "stock": stock
+    }.items():
+        if value is not None:
+            setattr(product, field, value)
+
+    if categories is not None:
+        product.categories.clear()
+        product.categories = sync_categories_from_row({"categories": categories}, db)
+
     db.commit()
-    db.refresh(product)
+    remove_unused_categories(db)
     return product
+
+def delete_product(db: Session, prod_id: int):
+    product = get_product_by_id(db, prod_id)
+    if not product:
+        raise HTTPException(status_code=404, detail="Product not found")
+
+    product.categories.clear()
+    db.delete(product)
+    db.commit()
+
+    remove_unused_categories(db)
