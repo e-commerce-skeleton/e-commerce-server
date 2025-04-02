@@ -7,8 +7,6 @@ def get_product_by_id(db: Session, prod_id: int):
     return db.query(ProductModel).filter(ProductModel.prod_id == prod_id).first()
 
 def create_product(db: Session, name, img_url, alt_text, description, current_price, prev_price, payment_method, detail, stock, categories):
-    if db.query(ProductModel).filter(ProductModel.name == name).first():
-        raise HTTPException(status_code=400, detail="Product with this name already exists")
 
     product = ProductModel(
         name=name,
@@ -33,8 +31,6 @@ def create_product(db: Session, name, img_url, alt_text, description, current_pr
 
 def update_product(db: Session, prod_id, name, img_url, alt_text, description, current_price, prev_price, payment_method, detail, stock, categories):
     product = get_product_by_id(db, prod_id)
-    if not product:
-        raise HTTPException(status_code=404, detail="Product not found")
 
     for field, value in {
         "name": name, "img_url": img_url, "alt_text": alt_text, "description": description,

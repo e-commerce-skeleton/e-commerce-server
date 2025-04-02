@@ -8,7 +8,7 @@ from src.app.crud.user import get_user_by_email, create_user
 from src.app.schemas.token import TokenData
 from src.app.config import google_client_id
 
-router = APIRouter()
+router = APIRouter(prefix="/auth", tags=["Auth"])
 
 @router.post("/auth/google")
 async def google_auth(token_data: TokenData, db: Session = Depends(get_db)):
