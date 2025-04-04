@@ -19,3 +19,4 @@ class ProductModel(Base):
     stock = Column(Integer, nullable=False, default=0)
     
     categories = relationship("CategoryModel", secondary=product_category_table, back_populates="products")
+

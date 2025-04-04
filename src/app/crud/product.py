@@ -6,6 +6,9 @@ from src.app.services.stock.category_sync import sync_categories_from_row, remov
 def get_product_by_id(db: Session, prod_id: int):
     return db.query(ProductModel).filter(ProductModel.prod_id == prod_id).first()
 
+def get_products(db: Session, skip: int = 0, limit: int = 100):
+    return db.query(ProductModel).offset(skip).limit(limit).all()
+
 def create_product(db: Session, name, img_url, alt_text, description, current_price, prev_price, payment_method, detail, stock, categories):
 
     product = ProductModel(

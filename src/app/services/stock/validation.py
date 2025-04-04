@@ -2,6 +2,7 @@ from fastapi import HTTPException, UploadFile
 import pandas as pd
 from sqlalchemy.orm import Session
 from src.app.models.product import ProductModel
+from src.app.models.category import CategoryModel
 
 def validate_excel(file: UploadFile):
     if not file.filename.endswith((".xls", ".xlsx")):
@@ -40,3 +41,6 @@ def check_product_exists(db: Session, prod_id: str):
     if not db.query(ProductModel).filter(ProductModel.prod_id == prod_id).first():
         raise HTTPException(status_code=404, detail="Product not found")
 
+def check_category_exists(db: Session, name: str):
+    if not db.query(CategoryModel).filter(CategoryModel.name == name).first():
+        raise HTTPException(status_code=404, detail="Category not found")

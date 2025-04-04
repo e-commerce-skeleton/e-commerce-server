@@ -1,7 +1,7 @@
 # src/app/schemas/category.py
 from pydantic import BaseModel
 from typing import List
-from src.app.schemas.product import ProductSchema
+from .product import ProductSchema
 
 class CategorySchema(BaseModel):
     name: str

@@ -1,7 +1,6 @@
 # src/app/schemas/product.py
 from pydantic import BaseModel
 from typing import Optional, List
-from src.app.schemas.category import CategorySchema
 
 class ProductSchema(BaseModel):
     prod_id: int
@@ -14,7 +13,7 @@ class ProductSchema(BaseModel):
     prev_price: Optional[float] = None
     payment_method: Optional[str] = None
     detail: Optional[str] = None
-    categories: List[CategorySchema] = []
+    categories: Optional[List[str]] = []
 
     class Config:
         orm_mode = True
